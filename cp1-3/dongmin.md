@@ -53,6 +53,9 @@ mysql -u root -p
 - 윈도우 계열: my.ini
 - MySQL 8.0 서버는 약 570개의 시스템 변수 보유
 
+<img width="563" alt="ggg" src="https://github.com/user-attachments/assets/ead0dac9-6de5-4e3f-92c9-68489f50389e" />
+
+
 ## MySQL 8.0 업그레이드
 
 ### 업그레이드 방식
@@ -182,6 +185,7 @@ MySQL 서버에는 다음과 같이 내장된 계정들이 있는데, 각기 다
 - ‘mysql.session’ @ ‘localhost’: MySQL 플러그인이 서버로 접근할 때 사용되는 계정
 - ‘mysql.infoschema’ @ ‘localhost’: information_schema에 정의된 뷰의 DEFINER로 사용되는 계정
 
+<img width="563" alt="ggg" src="https://github.com/user-attachments/assets/cc9c5462-746c-42e4-838d-093c3e7d066e" />
 
 ### 계정 생성
 
@@ -224,6 +228,10 @@ CREATE USER 'user'@'%'
 
 글자의 조합을 강제하거나 금칙어 설정 기능도 있음.
 
+<img width="571" alt="dsadsa" src="https://github.com/user-attachments/assets/0afa0741-83b4-4f27-b5e2-ae3a8d250b85" />
+
+<img width="476" alt="dsaq" src="https://github.com/user-attachments/assets/323a3172-0603-4cbd-a81e-f8e122740565" />
+
 
 비밀 번호 정책은 다음 3가지 중 하나로 default는 MEDIUM
 
@@ -237,6 +245,7 @@ MySQL 8.0 버전부터는 계정의 비밀번호로 2개의 값을 동시에 사
 
 최근에 설정한 비밀번호가 프라이머리 비밀번호, 이전 비밀번호가 세컨더리 비밀번호
 
+<img width="636" alt="qeww" src="https://github.com/user-attachments/assets/2e80485d-6cfc-4375-8874-1f225457519c" />
 
 첫 번째 명령 실행 시 프라이머리 비밀번호는 ‘koh0714!’로 설정, 세컨더리 비밀번호는 빈 상태
 
@@ -294,17 +303,26 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON employees.dept TO 'user'@'localhost';
 ### 역할
 
 - MySQL 8.0 버전부터 권한을 묶어서 역할을 사용할 수 있음.
+  
+<img width="377" alt="ewqee" src="https://github.com/user-attachments/assets/38887896-e411-4382-b10c-faae25923dea" /><br>
 
+
+<img width="496" alt="qqq" src="https://github.com/user-attachments/assets/97b5e20c-97c2-4906-b6e2-675101a4d8ac" /><br>
+
+
+<img width="449" alt="ee" src="https://github.com/user-attachments/assets/4437a6ba-2217-4f14-8c6d-a4275acf47d4" />
 
 - 역할 생성 후 특정 권한을 부여가능
 
 - 사용자를 생성하여 역할을 부여 가능
+<img width="262" alt="www" src="https://github.com/user-attachments/assets/835daabf-f4ff-40e6-a172-fd82c93efd16" />
 
 
 - 실제 역할이 적용될려면 역할을 활성화시켜줘야함.
 
 - 다시 로그인하면 활성화되지 않은 상태로 초기화되버림.
 
+<img width="548" alt="ewq" src="https://github.com/user-attachments/assets/8e551605-c447-448d-869c-3d356b98624b" />
 
 - user테이블에는 계정과 권한이 모두 저장.
 
