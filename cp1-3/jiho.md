@@ -49,7 +49,7 @@ MySQL은 1979년 스웨덴 TcX사의 UNIREG로 시작되었다. 1994년 MySQL 1.
 
 ## 3. MySQL의 경쟁력
 
-### 비용 효율성
+비용 효율성
 
 대규모 데이터 처리에서 상용 DBMS 대비 현저한 비용 우위를 보인다. 페이스북의 한 DBA는 "페이스북이 가진 데이터를 모두 오라클 RDBMS에 저장하면 페이스북은 망할 것이다"라고 말했다. 이는 대규모 데이터 처리에서 MySQL의 비용 효율성이 얼마나 중요한 경쟁력인지를 단적으로 보여준다.
 
@@ -65,13 +65,13 @@ MySQL은 1979년 스웨덴 TcX사의 UNIREG로 시작되었다. 1994년 MySQL 1.
 
 ## 1. MySQL 서버 설치
 
-### 버전 선택
+### 1.1 버전 선택
 
 -   최신 버전 설치 권장 (다른 제약사항이 없다면)
 -   메이저 버전 업그레이드 시: 패치 버전 15~20번 이상 릴리스된 버전 선택
     -   예: MySQL 8.0의 경우 8.0.15 ~ 8.0.20
 
-### 에디션 : 엔터프라이즈 vs 커뮤니티
+### 1.2 에디션 : 엔터프라이즈 vs 커뮤니티
 
 -   MySQL 5.5 이전: 기술 지원 차이만 존재
 -   MySQL 5.5 이후: 기능 및 소스코드 차이 발생
@@ -89,24 +89,24 @@ MySQL은 1979년 스웨덴 TcX사의 UNIREG로 시작되었다. 1994년 MySQL 1.
 
 MySQL 엔터프라이즈 에디션과 커뮤니티 에디션의 기본 성능이 다르거나 한 것은 아니므로 엔터프라이즈 에디션에서 지원하는 것들이 꼭 필요한지 검토하는 게 좋다.
 
-### MySQL 설치하기
+### 1.3 MySQL 설치하기
 
-#### MySQL Server vs Client
+#### 1.3.1 MySQL Server vs Client
 
 -   Server(mysqld): 데이터베이스 엔진으로, 실제 데이터를 저장하고 처리하는 서버 프로그램
 -   Client(mysql): 서버에 접속해서 쿼리를 실행하고 결과를 조회할 수 있는 프로그램
 
 각각 독립적으로 실행되며, 네트워크를 통해 통신한다!
 
-#### 윈도우 설치 시 주요 구성 요소
+#### 1.3.2 윈도우 설치 시 주요 구성 요소
 
 -   MySQL Server: 데이터를 저장하고 처리하는 핵심 데이터베이스 엔진이다. 사용자 관리, 쿼리 처리, 백업 등 기본적인 데이터베이스 기능을 모두 담당한다.
 -   MySQL Shell: JavaScript, Python, SQL을 지원하는 고급 명령행 도구이다. SQL 실행, 서버 관리, 스크립트 작성 등이 가능하다.
 -   MySQL Router: 여러 MySQL 서버를 관리하기 위한 중간 관리자 프로그램이다. 서버 간 요청 분배, 장애 대응, 부하 분산 등을 처리한다.
 
-#### MySQL 서버 디렉토리 구조
+#### 1.3.3 MySQL 서버 디렉토리 구조
 
-##### MySQL 설정 파일(my.ini)
+##### 1.3.3.1 MySQL 설정 파일(my.ini)
 
 MySQL 서버의 설정 파일은 `my.ini`로, MySQL 서버의 핵심 설정 정보를 담고 있다. Windows 환경에서 `ls` 명령어로 확인해보면 다음과 같이 위치해 있다:
 
@@ -123,7 +123,7 @@ d----        2023-09-18 오전 11:19                Uploads
 -a---        2023-09-18 오전 11:19          15641 my.ini
 ```
 
-##### MySQL 서버 디렉터리 구조
+##### 1.3.3.2 MySQL 서버 디렉터리 구조
 
 MySQL 서버는 다음과 같은 기본 디렉터리 구조를 가진다:
 
@@ -136,21 +136,21 @@ MySQL 서버는 다음과 같은 기본 디렉터리 구조를 가진다:
 
 ## 2. MySQL 서버의 시작과 종료
 
-### 시작/종료/상태 명령어
+### 2.1 시작/종료/상태 명령어
 
 -   `systemctl start mysqld`
 -   `systemctl stop mysqld`
 -   `systemctl status mysqld`
 
-### 서버 셧다운
+### 2.2 서버 셧다운
 
-#### 기본 셧다운 방법
+#### 2.2.1 기본 셧다운 방법
 
 -   원격으로 MySQL 서버에 로그인한 후 `SHUTDOWN` 명령어 실행
 -   `SHUTDOWN` 권한이 필요하다.
 -   `mysql> SHUTDOWN;`
 
-#### 클린 셧다운 (Clean shutdown)
+#### 2.2.2 클린 셧다운 (Clean shutdown)
 
 -   모든 커밋된 데이터를 데이터 파일에 적용 후 종료하는 방식이다.
 -   다음 서버 시작 시 트랜잭션 복구 과정이 불필요해 빠르게 시작할 수 있다.
@@ -164,7 +164,7 @@ mysql> SET GLOBAL innodb_fast_shutdown=0;
 mysql> SHUTDOWN;
 ```
 
-#### 시작/종료 시 버퍼 풀 처리
+#### 2.2.3 시작/종료 시 버퍼 풀 처리
 
 -   종료 시: 버퍼 풀의 메타 정보만 백업 (빠름)
 -   시작 시: 데이터 파일을 다시 읽어 버퍼 풀 복구 (느림)
@@ -189,9 +189,9 @@ MySQL의 사용자 식별은 두 가지 요소를 조합하여 이루어진다 :
 
 MySQL 8.0부터 계정은 두 가지로 구분된다:
 
-### 종류
+### 2.1 계정 종류
 
-#### 시스템 계정
+#### 2.1.1 시스템 계정
 
 -   SYSTEM_USER 권한 보유
 -   데이터베이스 관리자용 계정
@@ -200,12 +200,12 @@ MySQL 8.0부터 계정은 두 가지로 구분된다:
     -   다른 세션 강제 종료
     -   스토어드 프로그램의 DEFINER 설정
 
-#### 일반 계정
+#### 2.1.2 일반 계정
 
 -   응용 프로그램이나 개발자용 계정
 -   시스템 계정 관리 불가
 
-### 내장 계정
+### 2.2 내장 계정
 
 MySQL 서버의 주요 내장 계정:
 
@@ -227,7 +227,7 @@ mysql> SELECT user,host,account_locked FROM mysql.user WHERE user LIKE 'mysql.%'
 
 (삭제되지 않도록 주의해야한다!)
 
-### 계정 생성과 설정
+### 2.3 계정 생성과 설정
 
 MySQL 8.0부터 계정 생성과 권한 부여가 분리됐다:
 
@@ -253,27 +253,27 @@ MySQL 8.0부터 계정 생성과 권한 부여가 분리됐다:
 
 ## 3. 비밀번호 관리
 
-### MySQL의 컴포넌트 개념?
+### 3.1 MySQL의 컴포넌트 개념?
 
 -   MySQL 8.0에서 도입된 새로운 플러그인 아키텍처
 -   서버의 기능을 확장하기 위한 모듈화된 구조
 -   기존 플러그인의 한계를 극복하기 위해 설계됨
 
-### validate_password 컴포넌트
+### 3.2 validate_password 컴포넌트
 
 -   비밀번호 정책 관리용 컴포넌트
 -   설치: `INSTALL COMPONENT 'file://component_validate_password'`
 -   정책 수준: LOW(길이만), MEDIUM(문자조합), STRONG(금칙어)
 
-### 이중 비밀번호(Dual Password) 시스템
+### 3.3 이중 비밀번호(Dual Password) 시스템
 
-#### 일반적인 비밀번호 변경의 문제
+#### 3.3.1 일반적인 비밀번호 변경의 문제
 
 -   여러 애플리케이션이 하나의 DB 계정을 공유
 -   비밀번호 변경 시 모든 애플리케이션의 설정도 변경 필요
 -   모든 애플리케이션을 동시에 재시작해야 함 -> 서비스 중단 발생
 
-#### 이중 비밀번호(Dual Password)란?
+#### 3.3.2 이중 비밀번호(Dual Password)란?
 
 -   두 개의 비밀번호 동시 사용 가능
 -   무중단 비밀번호 변경 지원
@@ -288,7 +288,7 @@ RETAIN CURRENT PASSWORD;
 ALTER USER 'user'@'host' DISCARD OLD PASSWORD;
 ```
 
-#### 무중단으로 비밀번호 변경하는 구체적인 방법?
+#### 3.3.3 무중단으로 비밀번호 변경하는 구체적인 방법?
 
 1. 새 비밀번호 추가 (이전 비밀번호는 그대로 유지)
 
@@ -313,9 +313,9 @@ ALTER USER 'user'@'host' DISCARD OLD PASSWORD;
 
 ## 4. 권한 (Privilege)
 
-### 권한 종류
+### 4.1 권한 종류
 
-#### 정적 권한
+#### 4.1.1 정적 권한
 
 정적 권한은 MySQL이 처음부터 가지고 있던 전통적인 권한 체계다. 예를 들어, 데이터베이스 관리자가 새로운 개발자에게 특정 데이터베이스만 접근할 수 있게 하려면 다음과 같이 설정할 수 있다:
 
@@ -332,7 +332,7 @@ GRANT SELECT, INSERT ON employees.* TO 'developer'@'localhost';
 -   글로벌 권한: 서버 전체 대상 (FILE, CREATE USER 등)
 -   객체 권한: DB/테이블 대상 (SELECT, INSERT 등)
 
-#### 동적 권한(MySQL 8.0부터)
+#### 4.1.2 동적 권한(MySQL 8.0부터)
 
 MySQL 8.0부터는 더 세분화된 권한 관리가 필요하다는 요구사항을 반영해 동적 권한을 도입했다. 예를 들어, 백업 담당자에게는 백업 관련 권한만 주고 싶다면:
 
@@ -342,7 +342,7 @@ GRANT BACKUP_ADMIN ON *.* TO 'backup_user'@'localhost';
 
 동적 권한은 MySQL 서버가 시작되면서 동적으로 생성하는 권한이다.
 
-### 권한 부여 방법
+### 4.2 권한 부여 방법
 
 사용자를 먼저 생성하고, GRANT 명령으로 다음과 같이 권한을 부여해야 한다.
 
@@ -350,7 +350,7 @@ GRANT BACKUP_ADMIN ON *.* TO 'backup_user'@'localhost';
 mysql> GRANT privilege_list ON db.table TO 'user'@'host'
 ```
 
-#### 글로벌 권한의 적용
+#### 4.2.1 글로벌 권한의 적용
 
 서버 전체(테이블 및 스토어드 프로시저, 함수 등을 모두 포함)에 대한 권한은 반드시 `*.*` 형식으로만 부여할 수 있다.
 
@@ -358,7 +358,7 @@ mysql> GRANT privilege_list ON db.table TO 'user'@'host'
 GRANT SUPER ON *.* TO 'user'@'localhost';
 ```
 
-#### DB 권한의 적용
+#### 4.2.2 DB 권한의 적용
 
 DB 단위 권한은 `*.*` 또는 `db.*` 형식으로 부여 가능하다.
 
@@ -370,7 +370,7 @@ GRANT EVENT ON employees.* TO 'user'@'localhost';
 GRANT EVENT ON *.* TO 'user'@'localhost';
 ```
 
-#### 테이블 권한의 적용
+#### 4.2.3 테이블 권한의 적용
 
 ```sql
 -- 모든 DB, 모든 테이블에 권한
@@ -383,7 +383,7 @@ GRANT SELECT, INSERT ON employees.* TO 'user'@'localhost';
 GRANT SELECT, INSERT ON employees.department TO 'user'@'localhost';
 ```
 
-#### 칼럼 단위 권한의 적용과 주의사항
+#### 4.2.4 칼럼 단위 권한의 적용과 주의사항
 
 ```sql
 -- dept_name 칼럼만 업데이트 가능하도록
@@ -410,9 +410,9 @@ ON employees.department TO 'user'@'localhost';
 
 MySQL 8.0부터 도입된 역할은 권한을 그룹화하여 관리할 수 있게 해준다.
 
-### 실습
+### 5.1 실습
 
-#### STEP1: 역할&권한 생성 및 부여
+#### 5.1.1 STEP1: 역할&권한 생성 및 부여
 
 ```sql
 -- 역할 생성
@@ -441,7 +441,7 @@ SELECT current_role();
 -- 결과: NONE (활성화 전)
 ```
 
-#### STEP2: 역할 활성화
+#### 5.1.2 STEP2: 역할 활성화
 
 -   왜 역할 활성화가 필요한가?
     -   보안을 위해 명시적인 활성화 과정이 필요하다.
@@ -474,7 +474,7 @@ SELECT * FROM employees.employees;
 -- 정상 실행
 ```
 
-### '역할'과 '계정'의 관계
+### 5.2 '역할'과 '계정'의 관계
 
 흥미로운 점은 MySQL 서버 내부적으로 역할과 계정이 사실상 동일한 객체라는 것이다. MySQL DB의 user 테이블을 살펴보면 이를 확인할 수 있다:
 
