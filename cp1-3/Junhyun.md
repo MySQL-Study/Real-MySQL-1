@@ -156,5 +156,10 @@ mysql> CREATE USER 'writer'@'localhost' IDENTIFIED BY 'password';
 
 mysql> GRANT role_emp_read TO 'reader'@'localhost';
 mysql> GRANT role_emp_write TO 'writer'@'localhost';
+
+mysql> SET ROLE 'role_emp_read';
 ```
+계정과 권한을 어떻게 구분?
+하나의 계정에서 다른 계정의 권한을 병합하기만 하면 되므로 MySQL서버는 역할과 계정을 구분할 필요가 없다.
+
 SHOW GRANTS 명령어로 역할에 부여된 권한 확인 가능
