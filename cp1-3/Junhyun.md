@@ -149,4 +149,12 @@ mysql> CREATE ROLE
 mysql> GRANT SELECT ON employees.* TO role_emp_read;
 mysql> GRANT INSERT, UPDATE, DELETE ON employees.* TO role_emp_write;
 ```
+역할은 그 자체로 사용될 수 없고 계정에 부여해야함.
+```mysql
+mysql> CREATE USER 'reader'@'localhost' IDENTIFIED BY 'password';
+mysql> CREATE USER 'writer'@'localhost' IDENTIFIED BY 'password';
 
+mysql> GRANT role_emp_read TO 'reader'@'localhost';
+mysql> GRANT role_emp_write TO 'writer'@'localhost';
+```
+SHOW GRANTS 명령어로 역할에 부여된 권한 확인 가능
