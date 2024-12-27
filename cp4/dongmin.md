@@ -1,5 +1,6 @@
 ## 4.1 MySQL 엔진 아키텍처
 
+![ㅂㅂㅂ](https://github.com/user-attachments/assets/a16a913b-8fd8-41a8-bfad-d74ee920d042)
 
 MySQL은 크게 MySQL 엔진과 스토리지 엔진으로 구분함.
 
@@ -25,10 +26,14 @@ CREATE TABLE test_table (fd1 INT, fd2, INT) ENGINE=INNODB;
 
 MySQL 엔진의 쿼리 실행기에서 데이터를 쓰거나 읽어야 할 때 각 스토리지 엔진에 쓰기 또는 읽기를 요청하는데, 이 요청을 핸들러 요청이라 하고, 여기에 사용되는 API를 핸들러 API라고 함.
 
+<img width="306" alt="ㅈㅈㅈ" src="https://github.com/user-attachments/assets/4f53cca2-e8ad-498f-ac9e-e832e252823d" />
 
 - MySQL은 프로세스 기반이 아니라 스레드 기반으로 동작
 - 포그라운드(Foreground) 스레드, 백그라운드(Background) 스레드로 구분
 
+![ㄷㄷㄷ](https://github.com/user-attachments/assets/c076b300-7c82-425d-9d9b-e777d3245cf0)
+
+<img width="791" alt="ㄱㄱㄱ" src="https://github.com/user-attachments/assets/d704e2d1-df45-46a9-9ad3-a4a9131c613d" />
 
 
 - 포그라운드 스레드
@@ -52,6 +57,8 @@ MySQL 엔진의 쿼리 실행기에서 데이터를 쓰거나 읽어야 할 때 
 
 ### 메모리 할당 및 사용 구조
 
+![ㅅㅅㅅ](https://github.com/user-attachments/assets/0adc82b4-4378-4349-8058-0f6411033dd2)
+
 
 - 글로벌 메모리 영역과 로컬 메모리 영역으로 구분 가능
 - 글로벌 메모리 영역
@@ -65,9 +72,9 @@ MySQL 엔진의 쿼리 실행기에서 데이터를 쓰거나 읽어야 할 때 
     - 메모리 공간을 신경 쓰지 않고 설정되므로, 적절한 메모리 공간을 설정하는 것이 중요.
     - 대표적으로 정렬 버퍼, 조인 버퍼, 바이너리 로그 캐시, 네트워크 버퍼
 
-### 플러그인 스토리지 엔진 모델
 
 ### 플러그인 스토리지 엔진 모델
+![ㅛㅛㅛ](https://github.com/user-attachments/assets/597e5bd1-f789-4594-ad8a-1f3dc95ea5e7)
 
 
 - 검색어 파서, 사용자 인증을 위한 Native Authentication, Cache SHA-2 Authentication 등도 모두 플러그인으로 구현되어 제공
@@ -86,6 +93,8 @@ MySQL 엔진의 쿼리 실행기에서 데이터를 쓰거나 읽어야 할 때 
 MySQL 8.0 버전부터는 비밀번호 검증 기능이 컴포넌트로 변경되었음.
 
 ### 쿼리 실행 구조
+
+![ㅕㅕㅕ](https://github.com/user-attachments/assets/54197665-d706-4e95-be04-0dd5f1bab56b)
 
 
 - 쿼리 파서
@@ -143,6 +152,8 @@ InnoDB는 MySQL에서 사용 가능한 스토리지 엔진 중 거의 유일하�
 
 ⇒ 높은 동시성 처리 가능, 안정적, 성능 뛰어남.
 
+![ㅑㅑㅑ](https://github.com/user-attachments/assets/c74fa9d1-323a-4417-9ef2-33e53dad7da8)
+
 
 ### 프라이머리 키에 의한 클러스터링
 
@@ -167,6 +178,8 @@ InnoDB는 MySQL에서 사용 가능한 스토리지 엔진 중 거의 유일하�
 - InnoDB는 언두 로그를 이용해 이 기능을 구현함.
 - READ COMMITED 상태인 MySQL 서버에서 InnoDB 스토리지 엔진을 사용하는 테이블의 데이터를 어떻게 변경하는지를 보자.
 - UPDATE문이 실행되면 커밋 실행 여부와 관계없이 InnoDB의 버퍼 풀은 새로운 값인 ‘경기’로 업데이트된다.
+
+![ㅐㅐㅐ](https://github.com/user-attachments/assets/e5c70b01-530d-4238-9cca-d24cf62af39b)
 
 
 - InnoDB는 ACID를 보장하기 때문에 일반적으로는 InnoDB의 버퍼 풀과 데이터 파일은 동일한 상태라고 가정해도 무방함.
