@@ -35,7 +35,8 @@ MySQL 서버
 
 ## 4.1 MySQL 엔진 아키텍처
 
-![[images/KakaoTalk_20241226_094036580.jpg]]
+![KakaoTalk_20241226_094036580](https://github.com/user-attachments/assets/0468d50e-b096-415a-8713-394a49bf1970)
+
 
 ### 4.1.1 MySQL엔진, 스토리지 엔진, 핸들러
 
@@ -69,7 +70,8 @@ MySQL 서버는 프로세스 기반이 아니라 스레드 기반이다. 스레�
 
 #### 포그라운드, 백그라운드 스레드 그림으로 이해하기
 
-![[Pasted image 20241226104913.png]]
+![Pasted image 20241226104913](https://github.com/user-attachments/assets/749126b1-4089-4b62-b7de-734d0a39b566)
+
 
 1. 포그라운드 스레드의 커넥션 연결
     - 사용자는 `포그라운드 스레드(커넥션 연결)`과 1:1로 매핑된다.
@@ -99,7 +101,8 @@ MySQL 서버는 프로세스 기반이 아니라 스레드 기반이다. 스레�
 
 #### 스레드 직접 살펴보기
 
-![[Pasted image 20241226104238.png]]
+![Pasted image 20241226104238](https://github.com/user-attachments/assets/3cd99d56-347e-40aa-a2d5-ee2f81492fe2)
+
 
 ### 4.1.3 메모리 할당 및 사용 구조
 
@@ -246,7 +249,8 @@ Percona Server의 스레드 풀 플러그인은 선순위 큐와 후순위 큐�
 -   MySQL 스토리지 엔진 중 거의 유일하게 **레코드 기반의 잠금**을 제공함.
     -   이 덕분에 동시성 처리 및 안정성이 굿
 
-![[Pasted image 20241228223343.png]]
+![Pasted image 20241228223343](https://github.com/user-attachments/assets/a1095edf-19f2-4dec-abfc-577d4ab36038)
+
 
 ### 4.2.1 프라이머리 키에 의한 클러스터링
 
@@ -268,7 +272,8 @@ Percona Server의 스레드 풀 플러그인은 선순위 큐와 후순위 큐�
 
 #### 비교 이미지 (위: MyISAM / 아래: InnoDB)
 
-![[Pasted image 20241229021044.png]]
+![Pasted image 20241229021044](https://github.com/user-attachments/assets/349602a7-29a8-419e-a355-2dc1753d7513)
+
 
 ### 4.2.2 외래 키 지원
 
@@ -313,7 +318,8 @@ INSERT INTO member (m_id, m_name, m_area) VALUES (12, '홍길동', '서울');
 COMMIT;
 ```
 
-![[Pasted image 20241229024925.png]]
+![Pasted image 20241229024925](https://github.com/user-attachments/assets/94779570-dc3d-4147-aa12-74387dd119cf)
+
 
 이제 UPDATE로 홍길동 씨의 지역을 바꿔보자.
 
@@ -321,7 +327,8 @@ COMMIT;
 UPDATE member SET m_area='경기' WHERE m_id=12;
 ```
 
-![[Pasted image 20241229025407.png]]
+![Pasted image 20241229025407](https://github.com/user-attachments/assets/e9cb5cff-7d98-43e5-a95a-91169168fe13)
+
 
 이 상황에서 `SELECT * FROM member WHERE id=12`를 하면 서울이 나올까, 경기가 나올까?
 
@@ -329,16 +336,16 @@ UPDATE member SET m_area='경기' WHERE m_id=12;
 
 -   READ UNCOMMITTED (Level0)
     -   다른 트랜잭션에서 처리중인 커밋되지 않은 데이터를 읽을 수 있음
-    -   위 예제가 READ UNCOMMITTED였다면, **버퍼 풀의 '경기'**가 나왔을 것이다.
+    -   위 예제가 READ UNCOMMITTED였다면, 버퍼 풀의 `경기`가 나왔을 것이다.
 -   READ COMMITTED (Level1)
     -   커밋한 데이터만 읽을 수 있다.
         -   REPEATABLE READ와 다른 점은, 한 트랜잭션 내에서도 매번 새로운 SNAPSHOT을 읽는다는 점이다. 이로 인해 Non-Repeatable Read가 발생할 우려가 있다.
-    -   위 예제가 READ COMMITTED였다면, **언두 영역의 '서울'**이 나올 것이다.
+    -   위 예제가 READ COMMITTED였다면, 언두 영역의 `서울`이 나올 것이다.
 -   REPEATABLE READ (Level2)
     -   트랜잭션이 시작되기 전에 커밋된 내용에 대해서만 읽을 수 있다.
         -   READ COMMITTED와 다른 점은, 트랜잭션 시작 지점의 스냅샷을 일관되게 보여준다는 점이다.
     -   MySQL의 InnoDB의 기본 격리 수준임
-    -   위 예제가 REPEATABLE READ였다면, **언두 영역의 '서울'**이 나올 것이다.
+    -   위 예제가 REPEATABLE READ였다면, 언두 영역의 `서울`이 나올 것이다.
 -   SERIALIZABLE (Level3)
     -   가장 높은 격리 수준으로, 완벽한 읽기 일관성을 제공하지만 동시성이 크게 떨어져 성능이 저하된다.
     -   당연히 '서울'
