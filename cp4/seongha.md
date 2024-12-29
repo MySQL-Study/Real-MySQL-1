@@ -3,8 +3,7 @@
 스토리지 엔진은 핸들러 API를 만족하면 누구든지 스토리지 엔진을 구현해서 MySQL 서버에 추가하여 사용할 수 있다.
 
 # MySQL 엔진 아키텍처
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f8f04773-2f24-482c-8db8-1d2d03c099a1/f93fb4cd-8032-41a1-a3d3-17ca5cefba33/image.png)
+![mysql-engine](https://github.com/user-attachments/assets/72d408d9-be94-4b7d-94d1-8b2b65c19814)
 
 ### MySQL 엔진
 
@@ -31,7 +30,9 @@ SHOW GLOBAL STATUS LIKE 'Handler%';
 
 MySQL 서버는 프로세스 기반이 아니라 스레드 기반으로 작동하며, 크게 포그라운드(Forefround) 스레드와 백그라운드 (Background) 스레드로 구분할 수 있다. MySQL 서버에서 실행 중인 스레드의 목록은 다음과 같이 performance_schema 데이터 베이스의 threads 테이블을 통해 확인할 수 있다.
 
-![스크린샷 2024-12-23 오후 5.22.30.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f8f04773-2f24-482c-8db8-1d2d03c099a1/1012bbe5-8cde-4c3b-987e-54b51bc6cacc/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2024-12-23_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_5.22.30.png)
+<img width="661" alt="스크린샷 2024-12-23 오후 5 22 30" src="https://github.com/user-attachments/assets/e761b6ae-37ed-4236-9920-ffe7ae0e0c31" />
+
+
 
 동일한 이름의 스레드가 여러개 있을 수 있는데 이는 병렬 처리를 위한 것이다.
 
@@ -90,14 +91,11 @@ MySQL에서 사용되는 메모리 공간은 크게 `글로벌 메모리 영역`
 - 네트워크 버퍼
 
 ## 플러그인 스토리지 엔진 모델
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f8f04773-2f24-482c-8db8-1d2d03c099a1/6fea6d95-d036-472a-b38b-7b684638098b/image.png)
-
+![plugin](https://github.com/user-attachments/assets/47eef203-c023-4b86-8d3e-3170d93503d1)
 MySQL의 독특한 구조중 대표적인 것이 플러그인 모델이다.
 
 플러그인해서 사용할 수 있는 것이 스토리지 엔진만 있는 것이 아니다. 인증, 검색어 파서 등과 같은 것들도 플러그인으로 구현되어 제공된다.
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f8f04773-2f24-482c-8db8-1d2d03c099a1/50c5ef4e-3d2c-43d7-abe1-ab68519df2ff/image.png)
+![storageengine](https://github.com/user-attachments/assets/5c7c9e2c-0c44-4f0c-9224-48d065c587dc)
 
 MySQL에서 쿼리가 실행되는 과정 중 대부분의 과정이 MySQL 엔진에서 처리된다. 데이터를 읽고 쓰는 부분만 스토리지 엔진에서 처리된다.
 
@@ -111,8 +109,8 @@ MySQL에서 쿼리가 실행되는 과정 중 대부분의 과정이 MySQL 엔�
 이 부분에서 가장 중요한 부분은 하나의 쿼리 작업이 여러 하위 작업으로 나뉘는데 이 작업들이 각각 어느 영역에서 처리되는지 구분할 줄 알아야 한다.
 
 `SHOW ENGINE` 명령을 통해 어떤 스토리지 엔진이 있는지 알아보자
+![스크린샷 2024-12-26 오후 10 09 15](https://github.com/user-attachments/assets/161f9e74-11a7-456a-94e7-6224f713db53)
 
-![스크린샷 2024-12-26 오후 10.09.15.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f8f04773-2f24-482c-8db8-1d2d03c099a1/3fbfcced-0ffb-4984-9ea6-9b052e96c0b2/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2024-12-26_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_10.09.15.png)
 
 Support 칼럼은 4가지 상태가 존재한다.
 
@@ -134,8 +132,7 @@ no로 표시된 스토리지 엔진을 사용하려면 서버를 다시 빌드�
 - 상호 의존 관계를 설정할 수 없어서 초기화에 어려움
 
 ## 쿼리 실행 구조
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f8f04773-2f24-482c-8db8-1d2d03c099a1/6927976b-9da6-45e6-8081-537d817d1466/image.png)
+![query](https://github.com/user-attachments/assets/0b27c6f4-0626-4200-9437-7ce4fd48428b)
 
 쿼리 실행 구조를 나누어보면 그림과 같이 기능별로 표현할 수 있다. 하나씩 살펴보자
 
@@ -201,8 +198,7 @@ InnoDB를 사용하더라도 다른 스토리지 엔진의 메타데이터도 �
 
 InnoDB는 스토리지 엔진중 거의 유일하게 레코드 기반 잠금을 제공한다.
 따라서 높은 동시성처리가 가능하고 안정적이며, 성능이 뛰어나다.
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f8f04773-2f24-482c-8db8-1d2d03c099a1/df03cb82-27c1-44f5-920f-0b44c511feac/image.png)
+![innodbengine](https://github.com/user-attachments/assets/cc060991-4538-4e6c-8b0a-094cbfc78adf)
 
 ## 프라이머리 키에 의한 클러스터링
 
@@ -243,7 +239,8 @@ READ COMMITED 상태의 Isolation Level을 보인다고 가정해보자.
 - 이전 값은 언두로그에 기록된다.
 - 디스크에는 새로운 값으로 되어 있을 수도 있고 아닐수도 있다. (반영되는 시점에 따라 다르다)
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f8f04773-2f24-482c-8db8-1d2d03c099a1/165acd4f-25b2-410d-b113-d20edc17b1ac/image.png)
+![undolog](https://github.com/user-attachments/assets/493b6782-1307-4983-af58-1e7a31f9f205)
+
 
 아직 커밋을 진행하지 않은 이 상황에서 데이터를 조회한다면 어디에 있는 값을 조회할까?
 
