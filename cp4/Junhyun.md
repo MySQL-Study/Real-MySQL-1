@@ -135,11 +135,19 @@ SET foreign_key_checks=OFF;
 - 레코드 레벨의 트랜잭션 지원하는 DBMS의 기능
 - 잠금을 사용하지 않는 일관된 읽기 제공
 - InnoDB는 undo log를 이용해 MVCC를 구현  
+- read uncommitied 면 버퍼풀이 현재 가지고 있는 변경된 데이터 읽음
+- read commitied면 undo log를 이용해 이전 데이터를 읽음
+- commit하면 지금 상태를 영구적으로 만듦
+- 롤백하면 언두 영역의 백업 데이터를 버퍼풀로 복구하고 언두 삭제
+- 언두 영역을 필요로 하는 트랜잭션이 더는 없을 때 삭제됨.  
 [https://velog.io/@juy4556/DatabaseMVCC%EC%99%80-InnoDB%EA%B8%B0%EB%B0%98%EC%9D%98-MySQL](url)
 
 ## Non Locking Consistent Read
+read commitied, read uncommitied, repeatable read 경우 순수한 select 작업는 다른 트랜잭션 변경 작업과 관계 없이 항상 잠금을 대기하지 않고 바로 실행  
+read commitied, repeatable read 에서는 변경 전 데이터를 읽기 위해 언두 로그를 사용
 
-## 자동 데드락 감자
+## 자동 데드락 감지
+
 
 ## 자동화된 장애 복구
 
@@ -148,6 +156,15 @@ SET foreign_key_checks=OFF;
 ## Double Write Buffer
 
 ## undo log
+이전 이름 김철수  
+```mysql
+UPDATE member SET name='홍길동' WHERE id=1;
+```
+- 실제 데이터 파일은 홍길동으로 변경됨.
+- 언두로그에 김철수 백업됨.
+- 언두로그는 롤백 대비용, 높은 동시성 제공
+- 언두로그 많이 쌓이면 문제됨.
+- 
 
 ## 체인지 버퍼
 
