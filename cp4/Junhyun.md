@@ -134,8 +134,8 @@ SET foreign_key_checks=OFF;
 ## MVCC(Multi Version Concurrency Control)
 - 레코드 레벨의 트랜잭션 지원하는 DBMS의 기능
 - 잠금을 사용하지 않는 일관된 읽기 제공
-- InnoDB는 undo log를 이용해 MVCC를 구현
-
+- InnoDB는 undo log를 이용해 MVCC를 구현  
+[https://velog.io/@juy4556/DatabaseMVCC%EC%99%80-InnoDB%EA%B8%B0%EB%B0%98%EC%9D%98-MySQL](url)
 
 ## Non Locking Consistent Read
 
