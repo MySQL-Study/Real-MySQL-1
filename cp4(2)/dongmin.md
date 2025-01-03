@@ -15,7 +15,8 @@
 
 ### 버퍼 풀의 구조
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/dd9eb0a2-9c82-43da-92ea-939474e849bb/fba6e648-5dd8-4beb-a923-d7ee79bb95e8/7fc3981b-6c92-4a41-b78b-0d3b71a7527b.png)
+![image](https://github.com/user-attachments/assets/b99f8108-5b6c-4561-8257-1df30448d8c4)
+
 
 - 버퍼 풀의 페이지 크기 조각을 관리하기 위해 InnoDB 스토리지 엔진은 크게 LRU 리스트와 플러시 리스트, 프리 리스트라는 3개의 자료 구조를 관리함.
 - InnoDB 스토리지 엔진에서 데이터를 찾는 과정을 다음과 같음
@@ -31,7 +32,8 @@
 
 ### 버퍼 풀과 Redo 로그
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/dd9eb0a2-9c82-43da-92ea-939474e849bb/5eb85731-8cd2-4237-a88f-1b20adc83e69/f1f667e6-82b3-442c-8204-67cd4b234c78.png)
+![image](https://github.com/user-attachments/assets/b87b7591-86e8-4fe2-bf79-fa62d13cc29d)
+
 
 - InnoDB의 버퍼 풀은 서버의 메모리가 허용하는 만큼 크게 설정하면 할수록 쿼리의 성능은 나빠짐.
 - 하지만 버퍼 풀은 데이터베이스 서버의 성능 향상을 위해 데이터 캐시와 쓰기 버퍼링이라는 두 가지 용도가 있는데, 버퍼 풀의 메모리 공간만 단수히 늘리는 것은 데이터 캐시 기능만 향상시키는 것이다.
@@ -137,7 +139,8 @@ GROUP BY TABLE_NAME;
 
 ### Double Write Buffer
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/dd9eb0a2-9c82-43da-92ea-939474e849bb/6daef69e-a4ed-454a-a917-883c44b8ac4d/1954e830-4b42-4922-8d52-81f6826442a5.png)
+![image](https://github.com/user-attachments/assets/6d684284-cd32-4ec6-b3ec-dcfbd1ee5aa4)
+
 
 redo 로그는..
 
@@ -215,7 +218,8 @@ DROP TABLESPACE tablespace_name;
 
 ```
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/dd9eb0a2-9c82-43da-92ea-939474e849bb/e397aa5b-d94a-43a1-9658-b44448e2e5f2/a96cf966-0640-4025-b811-19ae05149ee8.png)
+![image](https://github.com/user-attachments/assets/6f419e01-cc70-42eb-b41d-49d6179afc0e)
+
 
 ### 체인지 버퍼
 
