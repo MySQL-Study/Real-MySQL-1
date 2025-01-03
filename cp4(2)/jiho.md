@@ -154,7 +154,7 @@
 
 information_schema 데이터베이스에 innodb_cached_indexes 테이블을 이용하면 테이블의 인덱스별로 데이터 페이지가 얼마나 InnoDB 버퍼 풀에 적재돼 있는지 확인할 수 있다.
 
-![[Pasted image 20250103115228.png]]
+![Pasted image 20250103115228](https://github.com/user-attachments/assets/366c5536-e628-49fb-a800-fd4caf4233e1)
 
 ### 4.2.8 Double Write Buffer
 
