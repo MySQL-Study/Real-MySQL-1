@@ -392,7 +392,7 @@ InnoDB만이 짱이다. MyISAM, MEMORY 스토리지 엔진은 모두 답이 없�
 
 # Chapter4 총정리
 
-Chapter4d에서 기억에 남는 내용 위주로 정리해봤습니다. 누락이 있을 수 있어요~!
+Chapter4에서 기억에 남는 내용 위주로 정리해봤습니다. 누락이 있을 수 있어요~!
 
 ![image](https://github.com/user-attachments/assets/7b3afa72-e1d7-4e53-9664-2fd9e0803481)
 
