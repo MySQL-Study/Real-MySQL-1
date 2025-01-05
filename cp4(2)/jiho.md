@@ -386,3 +386,14 @@ InnoDB만이 짱이다. MyISAM, MEMORY 스토리지 엔진은 모두 답이 없�
 
 -   서비스에서 사용되는 쿼리 중에서 어떤 쿼리가 문제인지를 판단하는 데에 슬로우 쿼리 로그가 도움이 됨.
 -   `long_query_time` 시스템 변수에 설정한 시간 이상의 시간이 소요된 쿼리들이 슬로우 쿼리 로그 파일에 기록됨
+
+
+---
+
+# Chapter4 총정리
+
+Chapter4d에서 기억에 남는 내용 위주로 정리해봤습니다. 누락이 있을 수 있어요~!
+
+![image](https://github.com/user-attachments/assets/7b3afa72-e1d7-4e53-9664-2fd9e0803481)
+
+
