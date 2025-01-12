@@ -64,7 +64,7 @@ innoDB에서는 실패한 경우 1과 2도 들어가지 않는다.
 #### 2. 트랜잭션 범위 설정의 주의사항
 
 -   커넥션을 가지고 있는 범위와 트랜잭션이 활성화돼 있는 프로그램의 범위를 최소화해야 한다.
-    ![[Pasted image 20250112002212.png]]
+    ![Pasted image 20250112002212](https://github.com/user-attachments/assets/ebcd44c9-7ad9-4188-a0af-dabfa340ad1f)
 
 ## 5.2 MySQL 엔진의 잠금
 
@@ -177,7 +177,7 @@ innoDB에서는 실패한 경우 1과 2도 들어가지 않는다.
 
 ### 5.3.2 인덱스와 잠금
 
-![[Pasted image 20250113010038.png]]
+![Pasted image 20250113010038](https://github.com/user-attachments/assets/9046b753-55f6-4506-9df3-2fbc2e97f525)
 
 -   인덱스를 어디에 걸었느냐에 따라 잠금의 범위가 달라진다.
 -   위와 같은 사진처럼, first_name에만 인덱스를 건 상황을 가정해보자. first_name이 Georgy인 사람은 253명이고, 그 중 Klassen이라는 last_name을 가진 사람이 단 한 명이다. 이 경우 `UPDATE employees SET hire_date=NOW() WHERE first_name='Georgi' AND last_name='Klassen'`문을 날리게 되면 253 개의 인덱스에 모두 다 락이 걸린다. 오로지 한 개의 레코드 변경을 위해 모두 락이 걸리는 셈이다.
@@ -247,7 +247,7 @@ innoDB에서는 실패한 경우 1과 2도 들어가지 않는다.
 ### 5.4.3 REPEATABLE READ
 
 -   SELECT할 적에 언두로그를 활용한다는 것은 동일함. 다만, 커밋된 것이더라도 해당 트랜잭션 안에서 실행되는 모든 SELECT 쿼리는 트랜잭션 번호가 자신의 트랜잭션 번호보다 낮은 트랜잭션에서 변경한 것만 보인다. (10번 트랜잭션은 10보다 작은 트랜잭션에서의 커밋 결과만 볼 수 있음)
-    ![[Pasted image 20250113022429.png]]
+    ![Pasted image 20250113022429](https://github.com/user-attachments/assets/fce56655-eb51-4c73-8a5b-e726173ff76e)
 -   다만 트랜잭션이 장시간 종료되지 않아 언두 로그에 많은 내용이 쌓인 경우, 처리 성능이 떨어질 수 있다.
 
 -   PHANTOM READ: 데이터 삽입으로 인한 결과 집합 불일치
