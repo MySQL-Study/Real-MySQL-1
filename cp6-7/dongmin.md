@@ -24,7 +24,8 @@
 - 16KB 페이지에 대해 실제 디스크 공간의 7KB만 차지함
 - 운영체제에서 16KB를 읽으면 압축된 데이터 7KB와 펀치 홀 공간인 9KB를 합쳐 16KB를 읽음
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/dd9eb0a2-9c82-43da-92ea-939474e849bb/91bd4d7b-6188-464c-a2f6-3fc3b8d1b86f/image.png)
+![image321](https://github.com/user-attachments/assets/ba797dc3-54e3-434a-8a4a-19f2c70eb1ea)
+
 
 - 펀치 홀 기능은 운영체제뿐 아니라 하드웨어 자체에서도 해당 기능을 지원해야 사용가능함.
 - 파일 시스템 관련 명령어가 펀치 홀을 지원하지 못함.
@@ -43,7 +44,8 @@
     2. 압축된 결과가 8KB를 초과하면 원본 페이지를 split해서 2개의 페이지에 8KB씩 저장
 2. 나뉜 페이지 각각에 대해 “1”번 단계를 반복 실행
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/dd9eb0a2-9c82-43da-92ea-939474e849bb/2172677b-9ab6-4eb6-b464-0c11b36f394c/image.png)
+![image322](https://github.com/user-attachments/assets/767ae2ec-9490-43f4-b193-e6b58445aa57)
+
 
 - 데이터 페이지의 압축 결과가 목표 크기보다 작거나 같을 때까지 반복해서 페이지를 split
 
@@ -70,7 +72,8 @@
 
 ### MySQL 서버의 데이터 암호화
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/dd9eb0a2-9c82-43da-92ea-939474e849bb/517c4277-7836-476b-92d8-ae3cd4920e42/image.png)
+![image323](https://github.com/user-attachments/assets/28dd14e3-2d9a-4d9d-b996-fc2927cc09f2)
+
 
 - MySQL 서버는 데이터베이스 서버와 디스크 사이의 데이터 읽기/쓰기 지점에서 암호화 또는 복호화를 수행-
     - InnoDB 스토리지 엔진의 I/O 레이어에서만 데이터 암호화 및 복호화 과정이 실행되는 방식
