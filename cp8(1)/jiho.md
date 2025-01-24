@@ -49,13 +49,16 @@
 
 ### 8.3.1 구조 및 특성
 
-![[Pasted image 20250125035457.png]]
+![Pasted image 20250125035457](https://github.com/user-attachments/assets/4de84eb3-6c69-4865-9859-beacf0c53986)
 
-![[Pasted image 20250125035551.png]]
+![Pasted image 20250125035551](https://github.com/user-attachments/assets/a28b17de-8b74-49a7-8351-f105731a1413)
+
 
 인덱스와 키 값은 모두 정렬되어 있고, 데이터 파일은 정렬되어 있지 않음.
-![[Pasted image 20250125035727.png]]
-![[Pasted image 20250125035703.png]]
+![Pasted image 20250125035727](https://github.com/user-attachments/assets/31ff67fa-1107-40c0-93c4-f0568d7856e8)
+
+![Pasted image 20250125035703](https://github.com/user-attachments/assets/1124cee7-9076-4ba1-947b-4228d19e32b7)
+
 
 -   위는 MyISAM 방식, 밑은 InnoDB 방식.
 -   MyISAM은 간단히 인덱스를 토대로 바로 데이터의 ROWID를 찾아 접근하고 있음.
@@ -106,7 +109,7 @@
 
 ### 8.3.3 B-Tree 인덱스 사용에 영향을 미치는 요소
 
-\*페이지란?: 디스트에 데이터를 저장하는 가장 기본 단위
+*페이지란?: 디스트에 데이터를 저장하는 가장 기본 단위
 
 1.  인덱스 키 값의 크기: 인덱스 값이 클수록 악영향
     -   페이지의 기본크기는 16KB
