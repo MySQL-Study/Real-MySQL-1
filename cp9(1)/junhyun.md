@@ -141,4 +141,78 @@ Having절은 group by결과에 대해 필터링 역할 수행
   - 임시테이블 사용
 
 ### 인덱스 스캔을 이용하는 GROUP BY(타이트 인덱스 스캔)
-조인의 드라이빙 테이블에 속한 칼럼만 이용해 그루핑할 때
+조인의 드라이빙 테이블에 속한 칼럼만 이용해 그루핑할 때 group by 칼럼에 인덱스 있다면 그 인덱스를 차례로 읽어 그루핑 수행하고 결과로 조인 처리.  
+이때도 그룹 함수 등 그룹값을 처리해야 해 임시 테이블이 필요.  
+이 그루핑 방식은 Extra칼럼에 별도의 코멘트 표시 없음.  
+
+### 루스(Loose) 인덱스 스캔을 이용하는 GROUP BY
+인덱스 레코드를 건너뛰어 필요한 부분만 읽는 것.  
+Extra에 Using index for group-by 표시됨.  
+gourp by에 표시된 칼럼의 유일한 그룹키 찾고, 거기에서 where 조건에 걸린 값만 가져옴. 이게 그냥 (그룹바이컬럼, 조건컬럼) 인덱스를 검색하는 것과 유사.  
+단일 테이블에서 처리되는 경우에만 사용 가능  
+프리픽스 인덱스는 사용 불가능  
+유니크한 그룹키가 적을수록 성능 향상  
+임시 테이블 필요 없음  
+
+사용할 수 없는 경우  
+- min, max 이외의 집합 함수가 사용됨.
+- group by에 사용된 컬럼이 인덱스 구성 컬럼의 왼쪽부터 일치하지 않음.
+- select 절의 칼럼이 group by와 일치하지 않기 때문
+
+### 임시 테이블을 사용하는 group by
+인덱스를 전혀 사용할 수 없을 때 사용  
+using temporary 표시됨. 묵시적 정렬 안 되어 file sort 없음.  
+8.0 이후부터는 내부적으로 group by절의 칼럼들로 구성된 유니크 인덱스를 가진 임시 테이블을 만들어 중복 제거, 집합 함수 연산 수행 후 조인된 결과를 한 건씩 가져와 임시 테이블에서 중복 체크와 함께 insert/update 실행.  
+order by와 같이 사용되면 명시적 정렬 작업 실행  
+
+## DISTINCT 처리 
+- 집합 함수와 사용 (이때 인덱스 사용하지 못 할 때 임시테이블 필요한데 using temporary 안 나옴)
+- 없이 사용  
+
+두개의 distinct 영향 범위 달라짐.  
+
+### SELECT DISTINCT ...
+select 되는 레코드 중에서 유니크한 레코드만 가져오고자 한다면 select distinct 형태의 쿼리문을 사용한다.  
+group by와 동일한 방식으로 처리된다.  
+select distinct first, last form table;  
+(first, last) 조합이 유니크한 것을 가져옴.  
+distinct 뒤에 괄호는 의미 없음.  
+
+### 집합 함수와 함꼐 사용된 DISTINCT
+집합 함수의 인자로 전달된 칼럼값이 유니크한 것들을 가져옴.  
+select count(distinct emp_no) from table;  
+
+## 내부 임시 테이블 활용
+mysql엔진이 받은 레코드를 정렬하거나 그루핑할 때 내부적인 임시 테이블을 사용.  
+쿼리 처리가 완료되면 삭제됨.  
+
+### 메모리 임시 테이블과 디스크 임시 테이블  
+메모리: TempTable(가변 길이 타입 지원)  
+디스크: innodb(트렌젝션 지원 가능)  
+temptable_max_ram 넘으면(기본 1GB) 디스크로 기록됨. 이때 두가지 저장 방식.  
+- MMAP파일로 디스크에 기록
+- innoDB 테이블로 기록
+
+기본은 temptable_use_mmap이 on -> MMAP  
+오버헤드가 적기 때문. 디스크에 생성되는 임시 테이블은 tmpdir에 정의된 디렉터리에 저장.  
+처음부터 디스크에 저장되는 경우는 기본이 innoDB(internal_tmp_disk_storage_engine)  
+
+### 임시 테이블이 필요한 쿼리
+- order by, group by 에 명시된 칼럼이 다른 쿼리
+- order by나 group by에 명시된 칼럼이 조인의 순서상 첫 번째 테이블이 아닌 쿼리
+- distinct와 order by가 동시에 쿼리에 존재하는 경우 또는 distinct 가 인덱스로 처리되지 못하는 쿼리
+- union 이나 union distinct 가 사용된 쿼리(select_type 컬럼이 union result인 경우)
+- 쿼리의 실행 계획에서 select_type이 derived인 쿼리 (유니크 인데스가 없는 내부 임시 테이블이 생성되어 성능 느림)
+
+마지막 3개는 using temporary 표시 안 됨.  
+
+### 임시 테이블이 디스크에 생성되는 경우
+- union이나 union all 에서 select 되는 칼럼 중에서 길이가 512 바이트 이상인 크기의 칼럼이 있는 경우
+- group by 나 distinct 칼럼에서 512바이트 이상인 크기의 칼럼이 있는 경우
+- 메모리 임시 테이블의 크기가 temptable_max_ram(TempTable) 시스템 변수 값보다 큰 경우.
+
+### 임시 테이블 관련 상태 변수
+임시테이블이 디스크, 메모리에 생성됐는지 확인하려면  
+show session status like 'created_tmp%';  
+created_tmp_tables 전체 만들어진 임시테이블(디스크, 메모리 모두)  
+created_tmp_disk_tables 디스크에 만들어진 임시테이블  
