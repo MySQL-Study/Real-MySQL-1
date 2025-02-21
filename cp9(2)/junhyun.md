@@ -128,6 +128,71 @@ extra에 `FirstMatch(e)` 표시됨.
 - GROUP BY나 집합 함수가 사용된 서브쿼리의 최적화에는 사용할 수 없음.
 
 ### 9.3.1.12 loose scan
+서브쿼리에 사용된 테이블이 드라이빙 테이블로 실행됨.  
+조인 처럼 처리. using index; LooseScan
+- 루스 인덱스 스캔으로 서브쿼리 테이블을 읽고, 그다음으로 아우터 테이블은 드리븐으로 사용해서 조인을 수행함. 그래서 서브쿼리 부분이 루스 인덱스 스캔을 사용할 수 있는 조건이 갖춰져야 사용할 수 있음. 루스 인덱스 스캔 최적화는 다음과 같은 형태의 서브쿼리들에서 사용가능. 
+where in (select ... from ... where ...)
+
+### 9.3.1.13 Materialization(구체화)
+서브쿼리 통째로 구체화해 최적화.  
+```mysql
+SELECT * FROM employees e WHERE e.emp_no IN (SELECT de.emp_no FROM dept_emp de WHERE de.from_date='1995-01-01');
+```
+이것 처럼 employees 테이블에 대한 조건이 서브쿼리 밖에 없을때 first match로 성능 향상에 도움 안 됨.  
+이때 materialization 사용.  
+explain에 select_type이 MATERIALIZED로 표시됨.  
+dept_emp테이블을 읽는 서브쿼리가 먼저 실행되어 임시 테이블을 만듦.  
+서브쿼리가 구체회된 임시테이블과 employees테이블을 조인.  
+서브 쿼리에 group by 있어도 사용 가능  
+- in (subquery)에서 서브쿼리는 상관 서브쿼리가 아니어야 한다.
+- 서브쿼리는 group by나 집합 함수들이 사용돼도 구체화를 사용할 수 있다.
+- 구체화가 사용된 경우에는 내부 임시 테이블이 사용됨. 
+
+### 9.3.1.14 중복제거 (Duplicate Weed-out)
+세미 조인 서브쿼리를 일반적인 inner join 쿼리로 바꿔서 실행하고 마지막에 중복된 레코드를 제거하는 방법으로 처리.  
+extra에 start temporary 와 end temporary 가 표시됨.  
+- 서브쿼리가 상관 서브쿼리라도 사용가능
+- groub by나 집합 함수가 사용된 서브쿼리의 최적화에 사용할 수 없음.
+- 테이블을 조인으로 처리하기 때문에 최적화할 방법 많음.  
+
+### 9.3.1.15 condition_fanout_filter
+일치하는 레코드가 적은 순서로 조인 실행.  
+첫번째 조건 외에 나머지 조건에 대해서도 얼마나 충족할지 고려.  
+어떻게 filtered 컬럼의 값 예측?  
+이 최적화가 활성화 되면 다음과 같음 조건을 만족하는 칼럼의 조건들에 대해 조건을 만족하는 레코드의 비율을 계산할 수 있음.  
+1. where 조건절에 사용된 칼럼에 대해 인덱스가 있는 경우
+2. where 조건절에 사용된 칼럼에 대해 히스토그램이 존재하는 경우
+
+이 최적화는 쿼리가 간단한 경우 별로 도움 안 될 수도 있음. 고려해서 사용.  
+
+### 9.3.1.16 derived_merge(파생 테이블 머지)
+from절에 사용된 서브쿼리를 파생 테이블이라 부름.  
+여기가 임시 테이블로 만들어지는데 크기 크면 디스키로 가서 성능저하.  
+5.7버전 부터 파생 테이블 만드는 서브쿼리를 외부 쿼리와 병합해 서브쿼리 부분을 제거하는 최적화 도입.  
+아래의 경우는 자동으로 서브, 외부 결합 불가, 수동으로 하면 성능 향상에 좋음.
+- sum(), min(), max() 같은 집계 함수와 윈도우 함수가 사용된 서브쿼리
+- distinct가 사용된 서브쿼리
+- group by, having이 사용된 서브쿼리
+- limit이 사용된 서브쿼리
+- union, union all 을 포함하는 서브쿼리
+- select 절에 사용된 서브쿼리
+- 값이 변경되는 사용자 변수가 사용된 서브쿼리
+
+### 9.3.1.17 인비저블 인덱스(use_invisible_indexes)
+인덱스의 가용 상태를 제어할 수 있는 기능이 추가됨.  
+인덱스를 삭제하지 않고, 해당 인덱스를 사용하지 못하게.
+```mysql
+-- // 옵티마이저가 ix_hiredate 인덱스를 사용하지 못하게 변경
+ALTER TABLE employees ALTER INDEX ix_hiredate INVISIBLE;
+
+-- // 옵티마이저가 ix_hiredate 인덱스를 사용할 수 있게 변경
+ALTER TABLE employees ALTER INDEX ix_hiredate VISIBLE;
+```
+SET optimizer_switch='use_invisible_indexes=on'; 하면 invisible 인덱스도 볼 수 있게 설정(기본은 못 봄)  
+
+### 9.3.1.18 스킵 스캔(skip_scan)
+
+
 
 
 
